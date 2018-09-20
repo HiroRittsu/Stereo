@@ -14,6 +14,7 @@ int main(int argc, char const *argv[]) {
 	cv::Mat imleft =  cv::imread("/home/migly/catkin_ws/src/stereo/src/left.png");
 	cv::Mat imright =  cv::imread("/home/migly/catkin_ws/src/stereo/src/right.png");
 
+	//グレースケールに変換
 	cvtColor(imleft, left_gray, CV_RGB2GRAY);
 	cvtColor(imright, right_gray, CV_RGB2GRAY);
 

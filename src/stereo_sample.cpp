@@ -11,20 +11,7 @@ cv::Mat imLeft_data, imRight_data;
 
 CalcTimer timer;
 
-cv::Mat noise_filter(cv::Mat input) {
-
-	cv::Mat result = input.clone();
-
-	cv::edgePreservingFilter(input, result);
-
-	//cv::imshow("noise", result);
-
-	//cv::waitKey(1);
-
-	return result;
-
-}
-
+//webカメラからの受け取り
 void imageLeft(const sensor_msgs::Image::ConstPtr& msg) {
 
 	cv_bridge::CvImagePtr cv_ptr;
@@ -44,6 +31,7 @@ void imageLeft(const sensor_msgs::Image::ConstPtr& msg) {
 
 }
 
+//webカメラからの受け取り
 void imageRight(const sensor_msgs::Image::ConstPtr& msg) {
 
 	cv_bridge::CvImagePtr cv_ptr;
@@ -65,7 +53,6 @@ void imageRight(const sensor_msgs::Image::ConstPtr& msg) {
 
 void stereo() {
 
-
 	double min, max;
 
 	//const cv::Mat imLeft_data = cv::imread("/home/migly/Desktop/SuXT483.png", cv::IMREAD_GRAYSCALE);
@@ -81,7 +68,6 @@ void stereo() {
 	sbm->setSpeckleWindowSize(200);
 	sbm->setSpeckleRange(1);
 
-	//sbm->compute(image1, image2, dis_data);
 	if (!imLeft_data.empty() && !imRight_data.empty()) {
 
 		sbm->compute((imLeft_data), (imRight_data), dis_data);
@@ -98,9 +84,6 @@ void stereo() {
 	}
 
 }
-
-
-
 
 int main(int argc, char **argv) {
 
