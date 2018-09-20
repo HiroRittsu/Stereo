@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <iostream>
-#include "Stereo.hpp"
+#include "Stereo.hpp" //オリジナルヘッダーファイル
 
 int main(int argc, char const *argv[]) {
 

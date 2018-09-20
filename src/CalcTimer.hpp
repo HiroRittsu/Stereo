@@ -2,6 +2,7 @@
 #include <iostream>
 #include <chrono>
 
+//計算時間の測定関数をまとめたもの
 #ifndef   CalcTimer_HPP
 #define   CalcTimer_HPP
 

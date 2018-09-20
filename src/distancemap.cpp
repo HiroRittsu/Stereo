@@ -61,10 +61,6 @@ int main(int argc, char **argv) {
 
 	ros::NodeHandle n;
 
-	//cv::Mat imleft =  cv::imread("/home/migly/catkin_ws/src/stereo/src/left.png");
-	//cv::Mat imright =  cv::imread("/home/migly/catkin_ws/src/stereo/src/right.png");
-
-	//ros::Subscriber left = n.subscribe("/camera_left/image_raw", 1000, calc);
 	ros::Subscriber left_sub = n.subscribe("/stereo/left/image_rect_color", 1, imageLeft);
 	ros::Subscriber right_sub = n.subscribe("/stereo/right/image_rect_color", 1, imageRight);
 
@@ -73,7 +69,7 @@ int main(int argc, char **argv) {
 		ros::spinOnce();
 
 		if (!imleft.empty() && !imright.empty()) {
-			printf("debug\n");
+
 			double min, max;
 
 			cv::Mat left_gray, right_gray;

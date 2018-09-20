@@ -79,11 +79,8 @@ int main(int argc, char **argv) {
 		cv::imshow("right", imright);
 		cv::waitKey(1);
 
-		//cv::Mat imleft =  cv::imread("/home/migly/catkin_ws/src/stereo/src/ballerina_left.jpg");
-		//cv::Mat imright =  cv::imread("/home/migly/catkin_ws/src/stereo/src/ballerina_right.jpg");
-
 		if (!imleft.empty() && !imright.empty()) {
-			
+
 			double min, max;
 
 			cv::Mat left_gray, right_gray;
@@ -91,11 +88,13 @@ int main(int argc, char **argv) {
 			//cv::resize(imleft, imleft, cv::Size(), 0.5, 0.5);
 			//cv::resize(imright, imright, cv::Size(), 0.5, 0.5);
 
+			//グレースケールの変換
 			cvtColor(imleft, left_gray, CV_RGB2GRAY);
 			cvtColor(imright, right_gray, CV_RGB2GRAY);
 
 			cv::Mat result1, result2;
 
+			//yoloで得たバウンディングボックスの座標（の想定
 			left_object[0].x = 90;
 			left_object[0].y = 130;
 			left_object[1].x = 200;
@@ -110,23 +109,12 @@ int main(int argc, char **argv) {
 
 			result1 = objectstereo.getDistanceMap(left_gray, left_object, right_gray, right_object, &max, &min);
 
-			//result1 = stereo.getDistanceMap(left_gray, right_gray, &max, &min);
-
 			result1.convertTo(result2, CV_8UC1);
-
-			for (int y = 0; y < result2.size[0]; ++y) {
-				for (int x = 0; x < result2.size[1]; ++x) {
-					//		if(result2.at<typename _Tp>(int i0, int i1))
-				}
-			}
-
-			//cv::GaussianBlur(result2, result2, cv::Size(5, 5), 5, 5);
-
-			//cv::Canny(result2, result2, 50, 200);
 
 			//輪郭の抽出
 			std::vector<std::vector<cv::Point>> contours;
 
+			//輪郭の探索
 			cv::findContours(result2, contours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
 
 			//輪郭の面積
@@ -148,6 +136,7 @@ int main(int argc, char **argv) {
 			double centroid_x, centroid_y;
 			double sum_x = 0;
 			double sum_y = 0;
+
 			//重心取得
 			for (unsigned i = 0; i < contours.at(max_index).size(); ++i) {
 
@@ -173,7 +162,6 @@ int main(int argc, char **argv) {
 
 			cv::waitKey(1);
 		}
-
 
 	}
 	return 0;

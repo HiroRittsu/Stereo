@@ -36,8 +36,8 @@ ObjectStereo::ObjectStereo() {
 
 	this->TEMP_H = 3;
 	this->TEMP_W = 3;
-	this->T = 10;
-	this->f = 7.5;
+	this->T = 10; //カメラとの距離
+	this->f = 7.5; //カメラ焦点
 
 }
 
@@ -45,6 +45,7 @@ ObjectStereo::~ObjectStereo() {
 
 }
 
+//受け取った２枚の画像を１枚に結合
 cv::Mat ObjectStereo::joinImage(cv::Mat image1, cv::Mat image2) {
 
 	cv::Mat result;
@@ -54,6 +55,7 @@ cv::Mat ObjectStereo::joinImage(cv::Mat image1, cv::Mat image2) {
 	return result;
 }
 
+//類似度の計算(画像の座標で指定)
 double ObjectStereo::getSimilarity(cv::Mat image1, cv::Point image1_point, cv::Mat image2, cv::Point image2_point, int size[]) {
 
 	double sum = 0;
@@ -64,7 +66,6 @@ double ObjectStereo::getSimilarity(cv::Mat image1, cv::Point image1_point, cv::M
 			sum += abs(image1.at<unsigned char>(image1_point.y + y, image1_point.x + x) - image2.at<unsigned char>(image2_point.y + y, image2_point.x + x));
 
 		}
-
 	}
 
 	return sum;
@@ -103,6 +104,7 @@ double ObjectStereo::calcDistance(double xl, double xr) {
 	return f * T / (xl - xr);
 }
 
+//距離分布マップの作成
 cv::Mat ObjectStereo::getDistanceMap(cv::Mat left, cv::Point left_object[], cv::Mat right, cv::Point right_object[], double * max, double * min) {
 
 	//cv::Mat map(left.size[0], left.size[1], CV_MAKETYPE(CV_64F, 1));
@@ -116,6 +118,7 @@ cv::Mat ObjectStereo::getDistanceMap(cv::Mat left, cv::Point left_object[], cv::
 	for (int y = left_object[0].y + (TEMP_H - 1) / 2; y < left_object[1].y - ((TEMP_H - 1) / 2); ++y) {
 
 		for (int x = left_object[0].x + (TEMP_W - 1) / 2; x < left_object[1].x - ((TEMP_W - 1) / 2); ++x) {
+
 			//対応点の取得
 			result = this->matchPoint(left, right, right_object, cv::Point(x, y));
 
@@ -128,11 +131,8 @@ cv::Mat ObjectStereo::getDistanceMap(cv::Mat left, cv::Point left_object[], cv::
 					if (*max < result_distance) *max = result_distance;
 					if (*min > result_distance) *min = result_distance;
 				}
-
 			}
-
 		}
-
 	}
 
 	return map;
