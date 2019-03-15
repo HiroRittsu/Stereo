@@ -1,3 +1,4 @@
+#auto-regist
 cmake_minimum_required(VERSION 2.8.3)
 project(stereo)
 
@@ -205,24 +206,3 @@ include_directories(
 #find_package( OpenCV REQUIRED )
 
 #set(CMAKE_CXX_FLAGS "-pthread")
-
-add_definitions(-std=c++11)
-
-project( DisplayImage )
-set( OpenCV_DIR "/usr/local/include/opencv2/" )
-find_package( OpenCV REQUIRED )
-
-set(CMAKE_CXX_FLAGS "-pthread")
-
-add_executable(stereo_sample src/stereo_sample.cpp)
-target_link_libraries(stereo_sample ${OpenCV_LIBS} ${catkin_LIBRARIES})
-add_executable(ColorTracking src/ColorTracking.cpp)
-target_link_libraries(ColorTracking  ${catkin_LIBRARIES} ${OpenCV_LIBS})
-add_executable(matchTemplate src/matchTemplate.cpp)
-target_link_libraries(matchTemplate  ${catkin_LIBRARIES} ${OpenCV_LIBS})
-add_executable(SADstereo src/SADstereo.cpp)
-target_link_libraries(SADstereo  ${catkin_LIBRARIES} ${OpenCV_LIBS})
-add_executable(object_position src/object_position.cpp)
-target_link_libraries(object_position  ${catkin_LIBRARIES} ${OpenCV_LIBS})
-add_executable(distancemap src/distancemap.cpp)
-target_link_libraries(distancemap  ${catkin_LIBRARIES} ${OpenCV_LIBS})
